@@ -9,4 +9,3 @@ export interface PDFViewerProps {
   keyword: string;
   onClose: () => void;
 }
-
