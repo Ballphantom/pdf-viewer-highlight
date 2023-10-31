@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Worker, Viewer } from '@react-pdf-viewer/core';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import { highlightPlugin, Trigger } from '@react-pdf-viewer/highlight';
-import { searchPlugin } from '@react-pdf-viewer/search';
+import { searchPlugin, OnHighlightKeyword } from '@react-pdf-viewer/search';
 import { bookmarkPlugin } from '@react-pdf-viewer/bookmark';
 import '@react-pdf-viewer/bookmark/lib/styles/index.css';
 import '@react-pdf-viewer/core/lib/styles/index.css';
@@ -10,20 +10,9 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import '@react-pdf-viewer/highlight/lib/styles/index.css';
 import '@react-pdf-viewer/search/lib/styles/index.css';
 import sample from '../assets/pdf-example-bookmarks.pdf';
+import {HighlightRect, PDFViewerProps} from './types'
 
-interface HighlightRect {
-    top: number;
-    left: number;
-    width: number;
-    height: number;
-}
-
-interface PDFViewerProps {
-    keyword: string;
-    onClose: () => void;
-}
-
-const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, onClose }) => {
+const PDFViewer: React.FC<PDFViewerProps> = ({ keyword }) => {
     const [highlightAreas, setHighlightAreas] = useState<HighlightRect[]>([]);
 
     useEffect(() => {
@@ -39,10 +28,21 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, onClose }) => {
         setHighlightAreas(areas);
     }, [keyword]);
 
-    const defaultLayoutPluginInstance = defaultLayoutPlugin();
+    const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
+    const handleDocmentLoad = () => setIsDocumentLoaded(true);
     const searchPluginInstance = searchPlugin();
-    const bookmarkPluginInstance = bookmarkPlugin();
+    const defaultLayoutPluginInstance = defaultLayoutPlugin({
+        toolbarPlugin: {
+            searchPlugin: {
+                onHighlightKeyword: (props: OnHighlightKeyword) => {
+                    const { keyword } = props;
+                    searchPluginInstance.highlight(keyword);
+                },
 
+            },
+        },
+    });
+    const bookmarkPluginInstance = bookmarkPlugin();
     const renderHighlights = (props: any) => (
         <div>
             {highlightAreas
@@ -70,14 +70,24 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, onClose }) => {
         trigger: Trigger.TextSelection,
     });
 
+    useEffect(() => {
+        if (isDocumentLoaded && keyword) {
+            searchPluginInstance.highlight({
+                keyword,
+            });
+        } else if (!keyword) {
+            searchPluginInstance.clearHighlights();
+        }
+    }, [keyword, isDocumentLoaded]);
+
     return (
         <div className="pdf-containter">
             <div className="pdf-header">
                 <h2>PDF Viewer</h2>
-                <button onClick={onClose}>Close</button>
             </div>
             <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                 <Viewer
+                    onDocumentLoad={handleDocmentLoad}
                     fileUrl={sample}
                     plugins={[defaultLayoutPluginInstance, highlightPluginInstance, searchPluginInstance, bookmarkPluginInstance]}
                 />

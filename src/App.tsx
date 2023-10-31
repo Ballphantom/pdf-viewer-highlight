@@ -1,31 +1,29 @@
-import { useState } from 'react';
+import { useState} from 'react';
 import PDFViewer from './components/PdfPreview';
 
 const App = () => {
-    const [showPdf, setShowPdf] = useState(false);
     const [selectedKeyword, setSelectedKeyword] = useState('');
 
     const handleKeywordClick = (keyword: string) => {
         setSelectedKeyword(keyword);
-        setShowPdf(true);
     };
 
     const handleClosePdf = () => {
-        setShowPdf(false);
         setSelectedKeyword('');
     };
 
     return (
         <div>
             <h1>Sample PDF Highlighter</h1>
-            <p className="search-words" onClick={() => handleKeywordClick('Creating PDF Files')}>Click to toggle pdf</p>
-            {/* Other clickable keywords */}
-            {showPdf && (
+            <h3>Click at topic lists</h3>
+            <ul>
+                <li className="search-words" onClick={() => handleKeywordClick('Accessing the novaPDF Printing Preferences')}>Accessing the novaPDF Printing Preferences</li>
+                <li className="search-words" onClick={() => handleKeywordClick('How to create PDF files from Microsoft Word')}>How to create PDF files from Microsoft Word</li>
+            </ul>
                 <PDFViewer
                     keyword={selectedKeyword}
                     onClose={handleClosePdf}
                 />
-            )}
         </div>
     );
 };
