@@ -10,7 +10,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import '@react-pdf-viewer/highlight/lib/styles/index.css';
 import '@react-pdf-viewer/search/lib/styles/index.css';
 import sample from '../assets/pdf-example-bookmarks.pdf';
-import {HighlightRect, PDFViewerProps} from './types'
+import {HighlightRect, PDFViewerProps} from '../interfaces/types'
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ keyword }) => {
     const [highlightAreas, setHighlightAreas] = useState<HighlightRect[]>([]);
