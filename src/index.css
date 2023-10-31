@@ -5,4 +5,13 @@
 
 .search-words{
   text-decoration: underline;
+  border: 1px solid black;
+  list-style: none;
+  padding: 10px;
+  width: 30%;
+}
+
+.search-words:hover{
+  color: red;
+  cursor: pointer;
 }
