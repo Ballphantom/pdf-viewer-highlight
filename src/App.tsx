@@ -2,15 +2,20 @@ import { useState } from "react";
 import PDFViewer from "./components/PdfPreview";
 
 const App = () => {
-  const [selectedKeyword, setSelectedKeyword] = useState("");
+  const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
 
   const handleKeywordClick = (keyword: string) => {
     setSelectedKeyword(keyword);
   };
 
   const handleClosePdf = () => {
-    setSelectedKeyword("");
+    setSelectedKeyword(null);
   };
+
+  const topicList = [
+    "Accessing the novaPDF Printing Preferences",
+    "How to create PDF files from Microsoft Word",
+  ];
 
   return (
     <div className="page">
@@ -20,26 +25,15 @@ const App = () => {
           <h3>Click at topic list</h3>
         </div>
         <div className="content-body">
-            <p
-              className="search-words"
-              onClick={() =>
-                handleKeywordClick("Accessing the novaPDF Printing Preferences")
-              }
-            >
-              Accessing the novaPDF Printing Preferences
+          {topicList.map((topic, index) => (
+            <p className="search-words" key={index} onClick={() => handleKeywordClick(topic)}>
+              {topic}
             </p>
-            <p
-              className="search-words"
-              onClick={() =>
-                handleKeywordClick("How to create PDF files from Microsoft Word")
-              }
-            >
-              How to create PDF files from Microsoft Word
-            </p>
+          ))}
         </div>
       </div>
       <div className="pdf">
-        <PDFViewer keyword={selectedKeyword} onClose={handleClosePdf} />
+        {selectedKeyword && <PDFViewer keyword={selectedKeyword} onClose={handleClosePdf} />}
       </div>
     </div>
   );
