@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { highlightPlugin, Trigger } from "@react-pdf-viewer/highlight";
@@ -12,7 +12,7 @@ import "@react-pdf-viewer/search/lib/styles/index.css";
 import sample from "../assets/pdf-example-bookmarks.pdf";
 import { HighlightRect, PDFViewerProps } from "../interfaces/types";
 
-const PDFViewer: React.FC<PDFViewerProps> = ({ keyword }) => {
+const PDFViewer = ({ keyword }: PDFViewerProps) => {
   const [highlightAreas, setHighlightAreas] = useState<HighlightRect[]>([]);
 
   useEffect(() => {
@@ -81,12 +81,16 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ keyword }) => {
 
   return (
     <div className="pdf-containter">
-      <div className="pdf-header">
-      </div>
-      <div >
-        <button className="btn-clear" onClick={()=>{
-          searchPluginInstance.clearHighlights();
-        }}>Clear highlight</button>
+      <div className="pdf-header"></div>
+      <div>
+        <button
+          className="btn-clear"
+          onClick={() => {
+            searchPluginInstance.clearHighlights();
+          }}
+        >
+          Clear highlight
+        </button>
       </div>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <Viewer
