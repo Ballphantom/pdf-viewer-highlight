@@ -82,7 +82,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ keyword }) => {
   return (
     <div className="pdf-containter">
       <div className="pdf-header">
-        <h2>PDF Viewer</h2>
+      </div>
+      <div >
+        <button className="btn-clear" onClick={()=>{
+          searchPluginInstance.clearHighlights();
+        }}>Clear highlight</button>
       </div>
       <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
         <Viewer
