@@ -8,4 +8,5 @@ export interface HighlightRect {
 export interface PDFViewerProps {
   keyword: string;
   onClose: () => void;
+  pdfPath: string | undefined;
 }

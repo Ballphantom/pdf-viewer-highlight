@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
 import { highlightPlugin, Trigger } from "@react-pdf-viewer/highlight";
-import { searchPlugin, OnHighlightKeyword } from "@react-pdf-viewer/search";
+import { searchPlugin } from "@react-pdf-viewer/search";
 import { bookmarkPlugin } from "@react-pdf-viewer/bookmark";
 import "@react-pdf-viewer/bookmark/lib/styles/index.css";
+import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import "@react-pdf-viewer/search/lib/styles/index.css";
-import sample from "../assets/pdf-example-bookmarks.pdf";
-import { HighlightRect, PDFViewerProps } from "../interfaces/types";
-
-const PDFViewer = ({ keyword }: PDFViewerProps) => {
+import {
+  HighlightRect,
+  PDFViewerProps,
+} from "../interfaces/PDFHighlighter/types";
+const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, pdfPath, onClose }) => {
   const [highlightAreas, setHighlightAreas] = useState<HighlightRect[]>([]);
 
   useEffect(() => {
@@ -24,23 +25,12 @@ const PDFViewer = ({ keyword }: PDFViewerProps) => {
         height: 90,
       },
     ];
-
     setHighlightAreas(areas);
   }, [keyword]);
 
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const handleDocmentLoad = () => setIsDocumentLoaded(true);
   const searchPluginInstance = searchPlugin();
-  const defaultLayoutPluginInstance = defaultLayoutPlugin({
-    toolbarPlugin: {
-      searchPlugin: {
-        onHighlightKeyword: (props: OnHighlightKeyword) => {
-          const { keyword } = props;
-          searchPluginInstance.highlight(keyword);
-        },
-      },
-    },
-  });
   const bookmarkPluginInstance = bookmarkPlugin();
   const renderHighlights = (props: any) => (
     <div>
@@ -80,9 +70,11 @@ const PDFViewer = ({ keyword }: PDFViewerProps) => {
   }, [keyword, isDocumentLoaded]);
 
   return (
-    <div className="pdf-containter">
-      <div className="pdf-header"></div>
-      <div>
+    <div className="pdf-container">
+      <div className="pdf-header">
+        <button className="btn-clear close" onClick={onClose}>
+          Close PDF
+        </button>
         <button
           className="btn-clear"
           onClick={() => {
@@ -92,18 +84,21 @@ const PDFViewer = ({ keyword }: PDFViewerProps) => {
           Clear highlight
         </button>
       </div>
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
-        <Viewer
-          onDocumentLoad={handleDocmentLoad}
-          fileUrl={sample}
-          plugins={[
-            defaultLayoutPluginInstance,
-            highlightPluginInstance,
-            searchPluginInstance,
-            bookmarkPluginInstance,
-          ]}
-        />
-      </Worker>
+      <div style={{ height: "100vh", width: "100%" }}>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+          {pdfPath && (
+            <Viewer
+              onDocumentLoad={handleDocmentLoad}
+              fileUrl={pdfPath}
+              plugins={[
+                highlightPluginInstance,
+                searchPluginInstance,
+                bookmarkPluginInstance,
+              ]}
+            />
+          )}
+        </Worker>
+      </div>
     </div>
   );
 };
