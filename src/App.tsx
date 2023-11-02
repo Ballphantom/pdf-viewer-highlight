@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import PDFViewer from './components/PdfPreview';
-import { PDF } from './constants/PDFfiles';
+import { useState } from "react";
+import PDFViewer from "./components/PdfPreview";
+import { PDF } from "./constants/PDFfiles";
 
 const App = () => {
   const [selectedKeyword, setSelectedKeyword] = useState<string | null>(null);
@@ -13,10 +13,7 @@ const App = () => {
     setSelectedKeyword(null);
   };
 
-  const topicList1 = [
-    "Overview",
-    "Sample Data File",
-  ];
+  const topicList1 = ["Overview", "Sample Data File"];
 
   const topicList2 = [
     "Accessing the novaPDF Printing Preferences",
@@ -49,7 +46,11 @@ const App = () => {
           <PDFViewer
             keyword={selectedKeyword}
             onClose={handleClosePdf}
-            pdfPath={topicList1.includes(selectedKeyword) ? PDF.find(pdf => pdf.name === "sample1")?.path : PDF.find(pdf => pdf.name === "sample2")?.path}
+            pdfPath={
+              topicList1.includes(selectedKeyword)
+                ? PDF.find((pdf) => pdf.name === "sample1")?.path
+                : PDF.find((pdf) => pdf.name === "sample2")?.path
+            }
           />
         )}
       </div>

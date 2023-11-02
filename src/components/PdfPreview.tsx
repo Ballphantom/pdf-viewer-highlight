@@ -46,7 +46,7 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, pdfPath, onClose }) => {
               left: area.left,
               width: area.width,
               height: area.height,
-              background: "yellow",
+              backgroundColor: "red",
               opacity: 0.4,
             }}
           />
