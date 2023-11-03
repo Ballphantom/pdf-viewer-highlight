@@ -10,52 +10,16 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import "@react-pdf-viewer/highlight/lib/styles/index.css";
 import "@react-pdf-viewer/search/lib/styles/index.css";
 import {
-  HighlightRect,
   PDFViewerProps,
 } from "../interfaces/PDFHighlighter/types";
 const PDFViewer: React.FC<PDFViewerProps> = ({ keyword, pdfPath, onClose }) => {
-  const [highlightAreas, setHighlightAreas] = useState<HighlightRect[]>([]);
-
-  useEffect(() => {
-    const areas: HighlightRect[] = [
-      {
-        top: 250,
-        left: 170,
-        width: 210,
-        height: 90,
-      },
-    ];
-    setHighlightAreas(areas);
-  }, [keyword]);
 
   const [isDocumentLoaded, setIsDocumentLoaded] = useState(false);
   const handleDocmentLoad = () => setIsDocumentLoaded(true);
   const searchPluginInstance = searchPlugin();
   const bookmarkPluginInstance = bookmarkPlugin();
-  const renderHighlights = (props: any) => (
-    <div>
-      {highlightAreas
-        .filter((area) => area.top === props.pageIndex)
-        .map((area, idx) => (
-          <div
-            key={idx}
-            className="highlight-area"
-            style={{
-              position: "absolute",
-              top: area.top,
-              left: area.left,
-              width: area.width,
-              height: area.height,
-              backgroundColor: "red",
-              opacity: 0.4,
-            }}
-          />
-        ))}
-    </div>
-  );
 
   const highlightPluginInstance = highlightPlugin({
-    renderHighlights,
     trigger: Trigger.TextSelection,
   });
 
