@@ -24,7 +24,7 @@ const PDFDocumentView = ({ keyword, pdfPath, onClose }: PDFViewerProps) => {
           Clear highlight
         </button>
       </div>
-      <div style={{ height: "100vh", width: "100%" }}>
+      <div className="h-[100vh] w-full">
         {isLoading && <div className="text-4xl font-semibold text-center">Loading...</div>}
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
           {pdfPath && (

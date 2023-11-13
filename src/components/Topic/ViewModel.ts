@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { fetchPDFData } from "../../service/API/pdfAPI";
+import { fetchPDFData } from "../../service/API/PDFAPI" 
 import { Observable } from "rxjs";
 
 export const useViewModel = () => {
@@ -35,7 +35,7 @@ export const useViewModel = () => {
     setPdfPath(null);
   };
 
-  const handleDownloadPdf = async () => {
+  const handleDownloadPdf = () => {
     try {
       if (pdfPath) {
         const link = document.createElement("a");
