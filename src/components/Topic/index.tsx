@@ -1,9 +1,8 @@
-import React from "react";
 import { useViewModel } from "./ViewModel";
 import PDFViewer from "../../components/PDFPreview";
 import { topicList } from "../../constants/Topics";
 
-const Topics: React.FC = () => {
+const Topics = () => {
   const {
     selectedKeyword,
     pdfPath,
@@ -16,7 +15,7 @@ const Topics: React.FC = () => {
     <div className="page">
       <div className="content">
         <div className="content-header">
-          <h1 className="font-bold text-xl text-center">
+          <h1 className="font-bold text-2xl text-center p-4 m-2">
             Sample PDF Highlighter
           </h1>
           <h3>Click at topic list</h3>
@@ -34,10 +33,10 @@ const Topics: React.FC = () => {
             </p>
           ))}
         </div>
-        <div className="w-full relative ">
+        <div className="w-full bottom-0 ">
           {pdfPath && (
             <button
-              className="w-full bg-blue-400 p-2 text-white inset-x-0 bottom-0"
+              className="w-full bg-blue-400 p-2 text-white inset-x-0 bottom-0 hover:bg-blue-500 focus:outline-none"
               onClick={handleDownloadPdf}
             >
               Download PDF

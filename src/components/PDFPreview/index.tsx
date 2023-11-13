@@ -1,11 +1,12 @@
 import { Worker, Viewer } from "@react-pdf-viewer/core";
-import { usePDFDocumentViewModel } from "./VIewModel";
+import { usePDFDocumentViewModel } from "./ViewModel";
 import {
   PDFViewerProps,
 } from "../../interfaces/PDFHighlighter/types";
+import { useState } from "react";
 
 const PDFDocumentView = ({ keyword, pdfPath, onClose }: PDFViewerProps) => {
-
+  const [isLoading, setIsLoading] = useState(true);
   const { handleDocmentLoad, searchPluginInstance, bookmarkPluginInstance, highlightPluginInstance } = usePDFDocumentViewModel(keyword);
 
   return (
@@ -24,10 +25,14 @@ const PDFDocumentView = ({ keyword, pdfPath, onClose }: PDFViewerProps) => {
         </button>
       </div>
       <div style={{ height: "100vh", width: "100%" }}>
+        {isLoading && <div className="text-4xl font-semibold text-center">Loading...</div>}
         <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
           {pdfPath && (
-            <Viewer
-              onDocumentLoad={handleDocmentLoad}
+            <Viewer 
+            onDocumentLoad={() => {
+              setIsLoading(false);
+              handleDocmentLoad();
+            }}
               fileUrl={pdfPath}
               plugins={[
                 highlightPluginInstance,

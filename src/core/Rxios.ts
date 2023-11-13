@@ -10,6 +10,9 @@ export type JSONValue =
   | undefined
   | { [x: string]: JSONValue }
   | Array<JSONValue>
+  | ArrayBuffer
+  | Blob
+  | FormData
 
 enum HttpMethod {
   GET = "GET",
@@ -65,7 +68,7 @@ export class Rxios {
    * @param {AxiosRequestConfig} [config] - AxiosRequestConfig
    * @returns An observable of type T
    */
-  public get<T>(url: string, params?: JSONValue | Blob | FormData, config?: AxiosRequestConfig) {
+  public get<T>(url: string, params?: JSONValue | Blob | FormData | ArrayBuffer, config?: AxiosRequestConfig) {
     const request = { method: HttpMethod.GET, url, params, ...config };
     return this.observableRequest<T>(request);
   }
@@ -84,7 +87,7 @@ export class Rxios {
    */
   public post<T>(
     url: string,
-    payload: JSONValue | Blob | FormData,
+    payload: JSONValue | Blob | FormData | ArrayBuffer,
     config: AxiosRequestConfig = {}
   ) {
     const request = {
@@ -105,7 +108,7 @@ export class Rxios {
    */
   public put<T>(
     url: string,
-    payload: JSONValue | Blob | FormData,
+    payload: JSONValue | Blob | FormData | ArrayBuffer,
     config: AxiosRequestConfig = {}
   ) {
     const request = {
@@ -127,7 +130,7 @@ export class Rxios {
    */
   public patch<T>(
     url: string,
-    payload: Record<string, string> | Blob | FormData | JSONValue,
+    payload: Record<string, string> | Blob | FormData | JSONValue | ArrayBuffer,
     config: AxiosRequestConfig = {}
   ) {
     const request = {
