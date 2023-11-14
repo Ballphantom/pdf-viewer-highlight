@@ -1,15 +1,44 @@
-body{
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  font-family: sans-serif;
 }
 
-.pdf-containter{
+.page {
+  display: grid;
+  grid-template-columns: 25% auto;
+  gap: 10px;
+  height: 100vh;
+}
+
+.pdf {
   width: 750px;
-  height: 900px;
 }
 
-.search-words{
+.pdf-header {
+  display: flex;
+}
+
+.content {
+  height: 100%;
+  border: 1px solid black;
+  overflow: auto;
+  border-top: none;
+}
+
+.content-header {
+  border-bottom: 1px solid black;
+  width: 100%;
+  padding: 10px;
+  margin: 0;
+}
+
+.search-words {
   text-decoration: underline;
   border-bottom: 1px solid black;
   list-style: none;
@@ -19,31 +48,41 @@ body{
   margin: 0;
 }
 
-.search-words:hover{
+.search-words:hover {
   color: red;
   cursor: pointer;
 }
 
-.btn-clear{
+.btn-clear {
   position: relative;
   background-color: #04AA6D;
   border: none;
-  font-size: 18px;
+  font-size: 16px;
   color: #FFFFFF;
-  padding: 12px;
+  padding: 5px;
   text-align: center;
-  -webkit-transition-duration: 0.4s; /* Safari */
+  -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   text-decoration: none;
   overflow: hidden;
   cursor: pointer;
   margin: auto;
   border: 1px solid;
-  border-radius: 10px;
+  width: 100%;
 }
 
-.btn-clear:hover{
+.close{
+  background-color: #f44336;
+  width: 100%;
+}
+
+.btn-clear:hover {
   background-color: rgb(55, 231, 193);
+  cursor: pointer;
+}
+
+.close:hover {
+  background-color: rgb(231, 149, 55);
   cursor: pointer;
 }
 
@@ -65,24 +104,4 @@ body{
   margin: 0;
   opacity: 1;
   transition: 0s
-}
-
-.page{
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
-  height: 100vh;
-}
-
-.content{
-  height: 100%;
-  border: 1px solid black;
-  overflow: auto;
-}
-
-.content-header{
-  border-bottom: 1px solid black;
-  width: 100%;
-  padding: 10px;
-  margin: 0;
 }
